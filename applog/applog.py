@@ -16,13 +16,17 @@ class AppLog:
             AppLog.__instance = self
 
     @classmethod
-    def error(cls, text):
+    def error(cls, text, isExit=False):
         logging.error(text)
+        if isExit:
+            exit()
 
     @classmethod
-    def exception(cls, e):
+    def exception(cls, e, isExit=False):
         logger = logging.getLogger(__name__)
         logger.exception(e)
+        if isExit:
+            exit()
 
     @classmethod
     def product_error(cls, id, text):
@@ -53,4 +57,4 @@ class AppLog:
 
     def _save(self):
         with open(self._log_products_path, 'wt', encoding='utf-8') as config_json:
-            json.dump(self._products_data, config_json,  ensure_ascii=False)
+            json.dump(self._products_data, config_json, ensure_ascii=False)
