@@ -3,3 +3,5 @@ logs
 .idea
 config.json
 __pycache__
+products.json
+log.log

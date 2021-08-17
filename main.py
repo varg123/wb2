@@ -1,9 +1,16 @@
 import appconfig
+import applog
+
+
 def main():
-    # config = appconfig.AppConfig()
-    # print(config.get('token'))
-    
-    pass
+    log = applog.AppLog()
+    log.error('test')
+    try:
+        raise ValueError('Test exception')
+    except ValueError as e:
+        log.exception(e)
+    log.product_error(123, 'test')
+    log.product_info(12, 'загружен')
 
 
 if __name__ == '__main__':
