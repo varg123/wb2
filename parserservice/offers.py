@@ -1,3 +1,4 @@
+import json
 import xml.etree.cElementTree as ET
 import requests
 from zlib import crc32
@@ -15,8 +16,9 @@ class Offers:
     _i = 0
 
     def __init__(self):
-        self._download_file()
+        # self._download_file()
         self._file_path = xml_path
+        self._i = 0
         self._data = self._get_offers_data()
 
     def _get_node_val(self, tree, dict, name):
@@ -24,16 +26,16 @@ class Offers:
         if val is not None:
             dict[name] = val.text
 
-    # def getCount(self):
-    #     return len(self._data)
-    #
-    # def getIter(self):
-    #     return self._i
+    def getCount(self):
+        return len(self._data)
+
+    def getIter(self):
+        return self._i
 
     def getData(self):
+        data = self._data[self._i]
         self._i += 1
-        for it in self._data:
-            yield it
+        return data
 
     def _get_offers_data(self):
         tree = ET.parse(self._file_path)
@@ -43,15 +45,24 @@ class Offers:
             categories_dict[element.get('id')] = element.text
         offers_list = []
         offers = tree.findall('shop/offers/offer')
+        # with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'products.json'), 'rt', encoding='utf-8') as file:
+        #     ids = json.load(file).keys()
         for offer in offers:
+            # if offer.get('id') != '107090':# not in ids:_
+            #     continue
+            hash_fields = ''
             pictures = []
             for picture in offer.findall('picture'):
                 pictures.append(picture.text)
+                hash_fields += picture.text
 
             params = {}
             for param in offer.findall('param'):
                 params[param.get('name')] = param.text
+                hash_fields += param.text
 
+            if offer.find('vendor').text == 'DKNY':
+                continue
             offer_dict = {
                 'id': offer.get('id'),
                 'price': offer.find('price').text,
@@ -63,6 +74,9 @@ class Offers:
                 'vat': offer.find('vat').text,
                 'param': params,
             }
+            hash_fields += offer.find('name').text
+            hash_fields += offer.find('vat').text
+            offer_dict['hash'] = crc32(hash_fields.encode('utf-8'))
             self._get_node_val(offer, offer_dict, 'description')
             self._get_node_val(offer, offer_dict, 'dimensions')
             self._get_node_val(offer, offer_dict, 'width')
@@ -71,6 +85,10 @@ class Offers:
             self._get_node_val(offer, offer_dict, 'length')
             self._get_node_val(offer, offer_dict, 'height')
             self._get_node_val(offer, offer_dict, 'outlet')
+
+            # todo: удвлить условия фильтрации
+            # if offer_dict.get('id') != '106989':
+            #     continue
 
             offers_list.append(offer_dict)
         return offers_list

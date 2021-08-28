@@ -9,7 +9,6 @@ class BaseResponce:
 
 
 class ErrorResponce(BaseResponce):
-
     def getData(self):
         json_result = self._resp.json()
         if json_result.get('errorText'):
@@ -23,3 +22,8 @@ class ErrorResponce(BaseResponce):
 class ResultResponce(BaseResponce):
     def getData(self):
         return self._resp.json().get('result')
+
+
+class ResultCatalogResponce(BaseResponce):
+    def getData(self):
+        return self._resp.json().get('data')

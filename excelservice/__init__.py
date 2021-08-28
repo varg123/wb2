@@ -1,1 +1,1 @@
-from .remains.remains import Remains
+from .remains.remains import RemainsService

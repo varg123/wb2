@@ -27,7 +27,9 @@ class BaseRequest:
         elif self._config.get_headers():
             headers = self._config.get_headers()
 
-        if data:
+        if isinstance(data, list):
+            None
+        elif data:
             data.update(self._config.get_data())
         elif self._config.get_data():
             data = self._config.get_data()
@@ -37,7 +39,9 @@ class BaseRequest:
         elif self._config.get_cookie():
             cookies = self._config.get_cookie()
 
-        resp = self._session.request(method, url, params=params, data=json.dumps(data), headers=headers,
+        if not files:
+            data = json.dumps(data)
+        resp = self._session.request(method, url, params=params, data=data, headers=headers,
                                      cookies=cookies,
                                      files=files)
         return self._get_resp(resp)
@@ -46,8 +50,21 @@ class BaseRequest:
         return BaseResponce(resp)
 
 
-class CatalogRequest:
-    pass
+class CatalogRequest(BaseRequest):
+    def __init__(self):
+        super().__init__()
+        self._session = requests.Session()
+        self._config = ApiConfig()
+
+    def request(self, url, method='post', params=None, files=None, headers=None, data=None, cookies=None):
+        return super().request(url, method=method, params=params, files=files, headers=headers, data=data,
+                               cookies=cookies)
+
+    def _get_resp(self, resp):
+        result_json = resp.json()
+        if 'data' in result_json:
+            return ResultCatalogResponce(resp)
+        return BaseResponce(resp)
 
 
 class ApiRequest(BaseRequest):
@@ -64,14 +81,17 @@ class ApiRequest(BaseRequest):
             "params": data
         }
 
-    def request(self, url, method='post', params=None, files=None, headers=None, data=None, cookies=None):
-        data = self._wrap_data(data)
-
+    def request(self, url, method='post', params=None, files=None, headers=None, data=None, cookies=None, isWrap=True):
+        if isWrap:
+           data = self._wrap_data(data)
         return super().request(url, method=method, params=params, files=files, headers=headers, data=data,
                                cookies=cookies)
 
     def _get_resp(self, resp):
-        result_json = resp.json()
+        if resp.text:
+            result_json = resp.json()
+        else:
+            result_json = {}
         if 'error' in result_json:
             return ErrorResponce(resp)
         if 'result' in result_json:
@@ -80,4 +100,6 @@ class ApiRequest(BaseRequest):
 
 
 class LkRequest(BaseRequest):
-    pass
+    def __init__(self):
+        super().__init__()
+        self._config = LkConfig()

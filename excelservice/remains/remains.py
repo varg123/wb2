@@ -2,7 +2,7 @@ import os
 import openpyxl
 
 
-class Remains:
+class RemainsService:
     _tmpl_excel_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'template.xlsx')
     _res_excel_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'result.xlsx')
     _data = {}

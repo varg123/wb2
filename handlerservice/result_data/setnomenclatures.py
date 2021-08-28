@@ -1,4 +1,5 @@
 import re
+from entityservice import Barcode
 
 
 # todo: добавить баркоды, добавить проверку битых фото
@@ -9,7 +10,6 @@ def set_nomenclatures(result_data, data):
         photos.append({
             'value': pict
         })
-    reg = re.compile('[^a-zA-ZА-Яа-я0-9]')
     if result_data.get('nomenclatures'):
         result_data['nomenclatures'][0]['addin'] = [
             {
@@ -35,15 +35,18 @@ def set_nomenclatures(result_data, data):
                 ]
             },
         ]
+        reg = re.compile('[\sё]|(&[a-z]*;)')
         data['barcode'] = result_data['nomenclatures'][0]['variations'][0]['barcodes'][0]
+        data['barcode'] = result_data['nomenclatures'][0]['vendorCode'] = reg.sub('_', data.get('param').get('Код товара'))[:35]
     else:
-        barcode = Barcode().get_barcode()
+        barcode = Barcode.getInstance().get()
         data['barcode'] = barcode
 
+        reg = re.compile('[\sё]|(&[a-z]*;)')
         result_data['nomenclatures'] = [
             {
 
-                "vendorCode": data.get('param').get('Код товара'),
+                "vendorCode": reg.sub('_', data.get('param').get('Код товара'))[:35],
                 "variations": [
                     {
                         "barcode": barcode,

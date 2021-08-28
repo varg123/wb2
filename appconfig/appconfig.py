@@ -23,6 +23,7 @@ class AppConfig:
         with open(cls.__instance._config_path, 'wt', encoding='utf-8') as config_json:
             json.dump(cls.__instance._data, config_json, ensure_ascii=False)
 
+    @classmethod
     def getInstance(cls):
         if not cls.__instance:
             cls.__instance = AppConfig()

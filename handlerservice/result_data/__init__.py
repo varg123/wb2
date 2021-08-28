@@ -17,13 +17,14 @@ from .setmaterst import set_mater_st
 from .setmatercif import set_mater_cif
 from .setmatercorp import set_mater_corp
 from .setmech import set_mech
-# from .setnomenclatures import set_nomenclatures todo: поправить
-# from .setnomenclaturescolor import set_nomenclatures_color todo: поправить
+from .setnomenclatures import set_nomenclatures
+from .setnomenclaturescolor import set_nomenclatures_color
 from .setobject import set_object
 from .setpol import set_pol
 from .setshirup import set_shir_up
 from .settnved import set_tnved
 from .setvisup import set_vis_up
 from .setvodo import set_vodo
+from .setrazm import set_razm
 
 

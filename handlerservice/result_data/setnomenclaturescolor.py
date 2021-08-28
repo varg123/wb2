@@ -1,20 +1,21 @@
-# TODO: сделать из списка color
+from entityservice import Catalog
+
+
 def set_nomenclatures_color(result_data, data):
     if result_data.get('object') == 'Будильники электронные':
         return result_data
 
     is_osn = True
 
-    config = BaseConfig()
     color_br = data.get('param').get('Цвет ремня/браслета')
-    if color_br and CatalogsRequest(config).get_from_directory('/colors', pattern=color_br).getData():
-        color_br = CatalogsRequest(config).get_from_directory('/colors', pattern=color_br).getData()[0]['key']
+    if color_br and Catalog.get_from_directory('/colors', pattern=color_br):
+        color_br = Catalog.get_from_directory('/colors', pattern=color_br)[0]['key']
     else:
         color_br = None
 
     color_cif = data.get('param').get('Цвет циферблата')
-    if color_cif and CatalogsRequest(config).get_from_directory('/colors', pattern=color_cif).getData():
-        color_cif = CatalogsRequest(config).get_from_directory('/colors', pattern=color_cif).getData()[0]['key']
+    if color_cif and Catalog.get_from_directory('/colors', pattern=color_cif):
+        color_cif = Catalog.get_from_directory('/colors', pattern=color_cif)[0]['key']
     else:
         color_cif = None
 
@@ -42,7 +43,9 @@ def set_nomenclatures_color(result_data, data):
                     ]
                 }
             )
-        else:
+        # todo:цвета
+        elif color_br != color_cif:
+
             result_data['nomenclatures'][0]['addin'].append(
                 {
                     "type": "Доп. цвета",
