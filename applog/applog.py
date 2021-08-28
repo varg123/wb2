@@ -12,7 +12,7 @@ class AppLog:
 
     def __init__(self):
         if not AppLog.__instance:
-            logging.basicConfig(filename=self._log_path, level=logging.ERROR, filemode='w')
+            logging.basicConfig(filename=self._log_path, level=logging.ERROR, filemode='a')
             AppLog.__instance = self
 
     @classmethod

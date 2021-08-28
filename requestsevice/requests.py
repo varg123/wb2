@@ -44,6 +44,10 @@ class BaseRequest:
         resp = self._session.request(method, url, params=params, data=data, headers=headers,
                                      cookies=cookies,
                                      files=files)
+        if not resp.ok:
+            print("error")
+            raise ValueError("error price")
+
         return self._get_resp(resp)
 
     def _get_resp(self, resp):
