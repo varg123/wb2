@@ -29,11 +29,12 @@ class Card:
         result = request.request(url, data=data)
         return result.getData().get('cards')
 
-
     @staticmethod
     def findByArticule(vendorCode, withError=False, offset=0):
         request = ApiRequest()
         url = 'https://suppliers-api.wildberries.ru/card/list'
+        vendorCode = vendorCode.replace('(', '\\(')
+        vendorCode = vendorCode.replace(')', '\\)')
         data = {
             "filter": {
                 "find": [
@@ -90,7 +91,6 @@ class Card:
         result = request.request(url, data=data)
         return result.getData()
 
-
     @staticmethod
     def setPrice(price):
         request = ApiRequest()
@@ -100,4 +100,3 @@ class Card:
         if isinstance(result, ErrorResponce):
             raise CardError(result.getData())
         return result.getData()
-
