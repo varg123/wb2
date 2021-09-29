@@ -7,7 +7,7 @@ def set_shir_up(result_data, data):
                 'type': "Ширина упаковки",
                 'params': [
                     {
-                        "count": float(data.get('width'))
+                        "count": float(data.get('width'))/10
                     }
                 ]
             })

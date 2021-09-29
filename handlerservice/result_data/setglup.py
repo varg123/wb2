@@ -7,7 +7,7 @@ def set_gl_up(result_data, data):
                 'type': "Глубина упаковки",
                 'params': [
                     {
-                        "count": float(data.get('length'))
+                        "count": float(data.get('length'))/10
                     }
                 ]
             })

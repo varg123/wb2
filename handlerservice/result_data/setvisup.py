@@ -7,7 +7,7 @@ def set_vis_up(result_data, data):
                 'type': "Высота упаковки",
                 'params': [
                     {
-                        "count": float(data.get('height'))
+                        "count": float(data.get('height'))/10
                     }
                 ]
             })
