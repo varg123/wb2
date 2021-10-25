@@ -75,14 +75,14 @@ def main():
                 barcodeservice.pop()
 
             exception_remains_brands = [
-                'ADRIATICA',
-                'CITIZEN',
-                'EPOS',
-                'PIERRE RICAUD',
-                'RAYMOND WEIL',
-                'SWISS MILITARY HANOW',
-                'NAUTICA',
-                'ANNE KLEIN',
+                # 'ADRIATICA',
+                # 'CITIZEN',
+                # 'EPOS',
+                # 'PIERRE RICAUD',
+                # 'RAYMOND WEIL',
+                # 'SWISS MILITARY HANOW',
+                # 'NAUTICA',
+                # 'ANNE KLEIN',
             ]
 
             if db_info.get('hash') != offer_data.get('hash'):

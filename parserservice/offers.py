@@ -5,7 +5,7 @@ from zlib import crc32
 from appconfig import AppConfig
 import os
 
-download_url = 'https://6624.su/administrator/components/com_excel2vm/models/yml_export.php?profile=wildberries'
+download_url = 'https://6624.su/1c_unload/market_2.xml'
 xml_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data.xml')
 
 

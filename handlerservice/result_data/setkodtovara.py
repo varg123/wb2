@@ -7,4 +7,4 @@ def set_kod_tovara(result_data, data):
     str_kod = ''
     if data.get('id'):
         str_kod = data.get('id')
-        result_data['supplierVendorCode'] = 'id'+str_kod
+        result_data['supplierVendorCode'] = 'idtv'+str_kod
