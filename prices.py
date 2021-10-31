@@ -9,6 +9,7 @@ def main():
     offers = Offers()
     dbservice = DbSevice()
     log = AppLog()
+    a = []
     for offer_i in range(offers.getCount()):
         try:
             offer_data = offers.getData()
@@ -23,9 +24,7 @@ def main():
                 continue
             nmId = dbservice.get(id).get('nmId')
             price = offer_data.get('price')
-            Card.setPrice([{"nmId": int(nmId), "price": int(price)}])
-            print(dbservice.get(id))
-            print({"nmId": int(nmId), "price": int(price)})
+            a.append({"nmId": int(nmId), "price": int(int(price) * 1.15)})
         except BaseException as e:
             log.exception(e)
 
